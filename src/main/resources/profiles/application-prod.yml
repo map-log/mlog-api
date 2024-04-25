@@ -1,0 +1,21 @@
+spring:
+  config:
+    import: application-secret.yml
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DATABASE.ENDPOINT_URL.prod}:3306/${DATABASE.NAME.prod}?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: ${DATABASE.USERNAME.prod}
+    password: ${DATABASE.PASSWORD.prod}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+jwt:
+  token:
+    header: X-MLOG-AUTH
+    issuer: mlog
+    client-secret: ${JWT.SECRET}
+    expiry-seconds: 0
