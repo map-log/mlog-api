@@ -69,4 +69,9 @@ public class GeneralExceptionHandler {
         log.error("Unexpected exception occurred: {}", e.getMessage(), e);
         return newResponse(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<?> UnauthorizedException(Exception e) {
+        return newResponse(e, HttpStatus.UNAUTHORIZED);
+    }
 }
