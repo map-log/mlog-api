@@ -1,6 +1,5 @@
 package com.mlog.travel.photo.service;
 
-import com.mlog.travel.detail.entity.TravelDetail;
 import com.mlog.travel.photo.entity.TravelPhoto;
 import com.mlog.travel.photo.repository.TravelPhotoMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-@Service
 @RequiredArgsConstructor
 @Slf4j
 public class FileUpload {
+
      private final TravelPhotoMapper travelPhotoMapper;
 
     /**\
@@ -28,7 +27,7 @@ public class FileUpload {
 
     public String getFullPath(String filename) { return storedPath + filename; }
 
-    public TravelPhoto storeFile(MultipartFile multipartFile, TravelDetail travelDetail) throws IOException {
+    public TravelPhoto storeFile(MultipartFile multipartFile) throws IOException {
         String originalFilename = multipartFile.getOriginalFilename();
         // 작성자가 업로드한 파일명 -> 서버 내부에서 관리하는 파일명
         // 파일명을 중복되지 않게끔 UUID로 정하고 ".확장자"는 그대로
@@ -46,10 +45,7 @@ public class FileUpload {
                 .id(travelPhoto.getId())
                 .originalFileName(travelPhoto.getOriginalFileName())
                 .storeUrl(travelPhoto.getStoreUrl())
-                .detail(travelDetail)
                 .build();
-
-
     }
 
     // 확장자 추출
