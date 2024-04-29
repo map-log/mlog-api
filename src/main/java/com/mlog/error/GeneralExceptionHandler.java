@@ -32,7 +32,7 @@ public class GeneralExceptionHandler {
         return new ResponseEntity<>(error(message, status), headers, status);
     }
 
-    @ExceptionHandler({NoHandlerFoundException.class})
+    @ExceptionHandler({NoHandlerFoundException.class, NotFoundException.class})
     public ResponseEntity<?> handleNotFoundException(Exception e) {
         return newResponse(e, HttpStatus.NOT_FOUND);
     }
@@ -71,7 +71,8 @@ public class GeneralExceptionHandler {
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<?> UnauthorizedException(Exception e) {
+    public ResponseEntity<?> handleUnauthorizedException(Exception e) {
         return newResponse(e, HttpStatus.UNAUTHORIZED);
     }
+
 }
