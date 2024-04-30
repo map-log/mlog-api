@@ -1,5 +1,9 @@
 package com.mlog.user.controller;
 
+import com.mlog.error.UnauthorizedException;
+import com.mlog.security.Jwt;
+import com.mlog.security.JwtAuthentication;
+import com.mlog.security.JwtAuthenticationToken;
 import com.mlog.user.dto.JoinRequest;
 import com.mlog.user.dto.LoginRequest;
 import com.mlog.user.dto.LoginResult;
@@ -7,7 +11,13 @@ import com.mlog.user.dto.UserDTO;
 import com.mlog.user.entity.User;
 import com.mlog.user.service.UserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import static com.mlog.util.ApiUtils.ApiResult;
@@ -18,6 +28,8 @@ import static com.mlog.util.ApiUtils.success;
 @RequiredArgsConstructor
 public class UserController {
 
+    private final Jwt jwt;
+    private final AuthenticationManager authenticationManager;
     private final UserService userService;
 
     @GetMapping
@@ -26,9 +38,22 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ApiResult<LoginResult> login(@RequestBody LoginRequest request) {
-        User user = userService.loginProcess(request.getPrincipal(), request.getCredentials());
-        return success(new LoginResult("tempToken", user));
+    public ApiResult<LoginResult> login(@Valid @RequestBody LoginRequest request)
+            throws UnauthorizedException {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new JwtAuthenticationToken(request.getPrincipal(), request.getCredentials())
+            );
+            final User user = (User) authentication.getDetails();
+            final String token = user.newJwt(jwt,
+                    authentication.getAuthorities().stream()
+                            .map(GrantedAuthority::getAuthority)
+                            .toArray(String[]::new)
+            );
+            return success(new LoginResult(token, user));
+        } catch (AuthenticationException e) {
+            throw new UnauthorizedException(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")

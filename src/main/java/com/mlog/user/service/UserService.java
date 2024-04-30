@@ -25,12 +25,10 @@ public class UserService {
         checkNotNull(email, "email must be provided");
         checkNotNull(password, "password must be provided");
 
-        User data = userMapper.findByEmail(email)
+        User user = userMapper.findByEmail(email)
                 .orElseThrow(() -> new UnauthorizedException("Invalid email"));
-        if (!data.getPassword().equals(password)) {
-            throw new UnauthorizedException("Invalid password");
-        }
-        return data;
+        user.login(passwordEncoder, password);
+        return user;
     }
 
     public User findById(Long id) {
