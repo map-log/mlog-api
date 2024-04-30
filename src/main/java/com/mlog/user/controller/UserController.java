@@ -80,4 +80,17 @@ public class UserController {
         return success(userService.delete(id));
     }
 
+    @GetMapping("/me")
+    public ApiResult<User> me(
+            // JwtAuthenticationTokenFilter 에서 JWT 값을 통해 사용자를 인증한다.
+            // 사용자 인증이 정상으로 완료됐다면 @AuthenticationPrincipal 어노테이션을 사용하여 인증된 사용자 정보(JwtAuthentication)에 접근할 수 있다.
+            @AuthenticationPrincipal JwtAuthentication authentication
+    ) {
+        if (authentication == null) {
+            throw new UnauthorizedException("invalid authentication");
+        }
+        return success(
+                userService.findById(authentication.id)
+        );
+    }
 }
