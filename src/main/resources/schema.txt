@@ -1,93 +1,102 @@
+-- MySQL Workbench Forward Engidineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mlogDB
+-- Schema mydb
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mlogDB
+-- Schema mydb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mlogDB` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `mlogdb` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema mlogdb
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
-USE `mlogDB` ;
+-- Schema mlogdb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mlogdb` DEFAULT CHARACTER SET utf8mb3 ;
+USE `mlogdb` ;
 
 -- -----------------------------------------------------
--- Table `mlogDB`.`User`
+-- Table `mlogdb`.`travel`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mlogDB`.`User` (
-    `id` BIGINT NOT NULL,
-    `email` VARCHAR(45) NOT NULL,
-    `name` VARCHAR(45) NOT NULL,
-    `password` VARCHAR(256) NOT NULL,
-    `role` VARCHAR(45) NOT NULL,
-    `created_at` DATETIME NOT NULL,
-    `updated_at` DATETIME NOT NULL,
-    PRIMARY KEY (`id`),
-    UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
-    ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mlogDB`.`Travel`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mlogDB`.`Travel` (
-    `id` BIGINT NOT NULL,
-    `title` VARCHAR(300) NOT NULL,
-    `map_marker_url` VARCHAR(300) NOT NULL,
-    `location` POINT NOT NULL,
-    `created_at` DATETIME NOT NULL,
-    `updated_at` DATETIME NOT NULL,
-    `user_id` BIGINT NOT NULL,
-    PRIMARY KEY (`id`),
-    INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
-    CONSTRAINT `user_travel_fk`
+CREATE TABLE IF NOT EXISTS `mlogdb`.`travel` (
+  `id` BIGINT AUTO_INCREMENT,
+  `title` VARCHAR(300) NOT NULL,
+  `map_marker_url` VARCHAR(300) NOT NULL,
+  `location` POINT NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `updated_at` DATETIME NOT NULL,
+  `user_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `user_id_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `user_travel_fk`
     FOREIGN KEY (`user_id`)
-    REFERENCES `mydb`.`User` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-    ENGINE = InnoDB;
+    REFERENCES `mlogdb`.`user` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `mlogDB`.`Travel_Detail`
+-- Table `mlogdb`.`travel_detail`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mlogDB`.`Travel_Detail` (
-   `id` BIGINT NOT NULL,
-   `seq` INT NOT NULL,
-   `description` TEXT NOT NULL,
-   `location` POINT NOT NULL,
-   `created_at` DATETIME NOT NULL,
-   `updated_at` DATETIME NOT NULL,
-   `travel_id` BIGINT NOT NULL,
-    PRIMARY KEY (`id`),
-    INDEX `travel_travelDetail_fk_idx` (`travel_id` ASC) VISIBLE,
-    CONSTRAINT `travel_travelDetail_fk`
+CREATE TABLE IF NOT EXISTS `mlogdb`.`travel_detail` (
+  `id` BIGINT AUTO_INCREMENT,
+  `seq` INT NOT NULL,
+  `description` TEXT NOT NULL,
+  `location` POINT NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `updated_at` DATETIME NOT NULL,
+  `travel_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `travel_travelDetail_fk_idx` (`travel_id` ASC) VISIBLE,
+  CONSTRAINT `travel_travelDetail_fk`
     FOREIGN KEY (`travel_id`)
-    REFERENCES `mydb`.`Travel` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-    ENGINE = InnoDB;
+    REFERENCES `mlogdb`.`travel` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 -- -----------------------------------------------------
--- Table `mlogDB`.`Travel_Photo`
+-- Table `mlogdb`.`travel_photo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mlogDB`.`Travel_Photo` (
-    `id` BIGINT NOT NULL,
-    `photo_url` VARCHAR(300) NOT NULL,
-    `created_at` DATETIME NOT NULL,
-    `travel_detail_id` BIGINT NOT NULL,
-    PRIMARY KEY (`id`),
-    INDEX `travelDetail_travelPhoto_idx` (`travel_detail_id` ASC) VISIBLE,
-    CONSTRAINT `travelDetail_travelPhoto`
+CREATE TABLE IF NOT EXISTS `mlogdb`.`travel_photo` (
+  `id` BIGINT AUTO_INCREMENT,
+  `photo_url` VARCHAR(300) NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `travel_detail_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `travelDetail_travelPhoto_idx` (`travel_detail_id` ASC) VISIBLE,
+  CONSTRAINT `travelDetail_travelPhoto`
     FOREIGN KEY (`travel_detail_id`)
-    REFERENCES `mydb`.`Travel_Detail` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-    ENGINE = InnoDB;
+    REFERENCES `mlogdb`.`travel_detail` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `mlogdb`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mlogdb`.`user` (
+  `id` BIGINT AUTO_INCREMENT,
+  `email` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(256) NOT NULL,
+  `role` VARCHAR(45) NOT NULL,
+  `created_at` DATETIME NOT NULL,
+  `updated_at` DATETIME NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
