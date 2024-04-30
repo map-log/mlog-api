@@ -41,9 +41,7 @@ public class UserController {
     @PutMapping
     public ApiResult<UserDTO> join(@RequestBody JoinRequest joinRequest) {
         return success(
-                new UserDTO(userService.join(
-                        new User(joinRequest)
-                ))
+                new UserDTO(userService.joinProcess(joinRequest))
         );
     }
 

@@ -31,12 +31,6 @@ public class User {
 
     private LocalDateTime updatedAt;
 
-    public User(JoinRequest joinRequest) {
-        copyProperties(joinRequest, this);
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
-    }
-
     public void update(UserDTO userDTO) {
         this.email = userDTO.getEmail() == null ? this.email : userDTO.getEmail();
         this.name = userDTO.getName() == null ? this.name : userDTO.getEmail();
@@ -56,4 +50,12 @@ public class User {
         }
     }
 
+    public static User join(JoinRequest joinRequest, PasswordEncoder passwordEncoder) {
+        User user = new User();
+        copyProperties(joinRequest, user);
+        user.setPassword(passwordEncoder.encode(joinRequest.getPassword()));
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(user.getCreatedAt());
+        return user;
+    }
 }
