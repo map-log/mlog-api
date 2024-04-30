@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import static org.apache.commons.lang3.ClassUtils.isAssignable;
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 
 public class JwtAuthenticationProvider implements AuthenticationProvider {
@@ -53,7 +52,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return isAssignable(JwtAuthenticationToken.class, authentication);
+        return JwtAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
 }
