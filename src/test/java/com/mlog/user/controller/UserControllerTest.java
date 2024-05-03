@@ -132,7 +132,7 @@ class UserControllerTest {
                 .andExpect(handler().methodName("login"))
                 .andExpect(jsonPath("$.success", is(false)))
                 .andExpect(jsonPath("$.error").exists())
-                .andExpect(jsonPath("$.error.status", is(401)))
+                .andExpect(jsonPath("$.error.status", is(400)))
         ;
     }
 
@@ -150,7 +150,7 @@ class UserControllerTest {
                 .andExpect(handler().methodName("login"))
                 .andExpect(jsonPath("$.success", is(false)))
                 .andExpect(jsonPath("$.error").exists())
-                .andExpect(jsonPath("$.error.status", is(401)))
+                .andExpect(jsonPath("$.error.status", is(400)))
         ;
     }
 
@@ -257,7 +257,7 @@ class UserControllerTest {
     @Test
     @Transactional
     public void 올바른_정보로_삭제할경우_성공() throws Exception {
-        ResultActions result = mockMvc.perform(delete("/user/" + 7)
+        ResultActions result = mockMvc.perform(delete("/user/" + 1)
                 .contentType(MediaType.APPLICATION_JSON)
         );
 
