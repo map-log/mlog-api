@@ -87,6 +87,7 @@ public class UserController {
             @AuthenticationPrincipal JwtAuthentication authentication
     ) {
         if (authentication == null) {
+            System.out.println(authentication);
             throw new UnauthorizedException("invalid authentication");
         }
         return success(
