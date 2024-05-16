@@ -1,8 +1,10 @@
 package com.mlog.user.entity;
 
 import com.mlog.user.dto.JoinRequest;
+import com.mlog.security.Jwt;
 import com.mlog.user.dto.UserDTO;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -29,12 +31,6 @@ public class User {
 
     private LocalDateTime updatedAt;
 
-    public User(JoinRequest joinRequest) {
-        copyProperties(joinRequest, this);
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
-    }
-
     public void update(UserDTO userDTO) {
         this.email = userDTO.getEmail() == null ? this.email : userDTO.getEmail();
         this.name = userDTO.getName() == null ? this.name : userDTO.getEmail();
@@ -43,4 +39,23 @@ public class User {
         updatedAt = LocalDateTime.now();
     }
 
+    public String newJwt(Jwt jwt, String[] roles) {
+        Jwt.Claims claims = Jwt.Claims.of(id, name, roles);
+        return jwt.create(claims);
+    }
+
+    public void login(PasswordEncoder passwordEncoder, String credentials) {
+        if (!passwordEncoder.matches(credentials, password)) {
+            throw new IllegalArgumentException("Bad credential");
+        }
+    }
+
+    public static User join(JoinRequest joinRequest, PasswordEncoder passwordEncoder) {
+        User user = new User();
+        copyProperties(joinRequest, user);
+        user.setPassword(passwordEncoder.encode(joinRequest.getPassword()));
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(user.getCreatedAt());
+        return user;
+    }
 }

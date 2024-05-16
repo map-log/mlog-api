@@ -18,4 +18,4 @@ jwt:
     header: X-MLOG-AUTH
     issuer: mlog
     client-secret: ${JWT.SECRET}
-    expiry-seconds: 0
+    expiry-seconds: 10000

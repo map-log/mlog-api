@@ -1,0 +1,1 @@
+INSERT INTO users(id, email, name, password, role, created_at, updated_at) VALUES (null, 'tester@gmail.com', 'tester', '$2a$10$6EnLBt2WLo/ghiSEZly7a.BpI1RJHezpSc8n3C8RRMTQWuGzsWmCG', 'ROLE_USER', now(), now());
