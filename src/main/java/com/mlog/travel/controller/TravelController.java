@@ -17,29 +17,9 @@ public class TravelController {
 
     private final TravelService travelService;
 
-    @GetMapping
-    public ApiResult<String> hello() {
-        return success("hello travel");
+    @PostMapping("/{userId}")
+    public ApiResult<Boolean> saveTravel(@PathVariable Long userId,
+                                         @RequestBody SaveTravelRequest saveTravelRequest) {
+        return success(travelService.saveTravel(userId, saveTravelRequest));
     }
-
-    @GetMapping("/{id}")
-    public ApiResult<List<TravelDto>> getId(@PathVariable Long id) {
-        return success(travelService.selectAllTravel(id));
-    }
-
-    @PostMapping("/{id}")
-    public ApiResult<Boolean> saveTravel(@PathVariable Long id, @RequestBody TravelDto travelDto) {
-        return success(travelService.insertTravel(id, travelDto));
-    }
-
-    @PutMapping("/{id}")
-    public ApiResult<Boolean> updateTravel(@PathVariable Long id, @RequestBody TravelDto travelDto) {
-        return success(travelService.updateTravel(id, travelDto));
-    }
-
-    @DeleteMapping("/{id}")
-    public ApiResult<Boolean> deleteTravel(@PathVariable Long id) {
-        return success(travelService.deleteTravelById(id));
-    }
-
 }
