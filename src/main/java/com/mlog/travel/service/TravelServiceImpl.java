@@ -1,50 +1,47 @@
 package com.mlog.travel.service;
 
-import com.mlog.travel.dto.TravelDto;
+import com.mlog.aws.S3Service;
+import com.mlog.travel.dto.SaveTravelRequest;
+import com.mlog.travel.entity.Travel;
+import com.mlog.travel.entity.TravelDetail;
+import com.mlog.travel.entity.TravelPhoto;
 import com.mlog.travel.mapper.TravelMapper;
-import org.apache.ibatis.annotations.Param;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
+@RequiredArgsConstructor
 public class TravelServiceImpl implements TravelService {
 
     private final TravelMapper travelMapper;
+    private final S3Service s3Service;
 
-    public TravelServiceImpl(TravelMapper travelMapper) {
-        this.travelMapper = travelMapper;
-    }
+    @Transactional
+    public boolean saveTravel(Long userId, SaveTravelRequest saveTravelRequest) {
 
-    public List<TravelDto> selectAllTravel(@Param("id") Long id) {
-        return travelMapper.selectAllTravel(id);
-    }
+        Travel travel = Travel.of(
+                saveTravelRequest,
+                s3Service.uploadBase64Image(saveTravelRequest.getImage()),
+                userId);
+        travelMapper.saveTravel(travel);
 
-    public TravelDto selectTravelById(Long id) {
-        return travelMapper.selectTravelById(id);
-    }
+        saveTravelRequest
+                .getDetailedSchedules().stream()
+                .forEach(travelDetailDTO -> {
 
-    public boolean insertTravel(@Param("id") Long id, TravelDto travelDto) {
-        if (travelMapper.insertTravel(id, travelDto) == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+                    TravelDetail detailDetail = TravelDetail.of(travelDetailDTO, travel.getId());
+                    travelMapper.saveTravelDetail(detailDetail);
 
-    public boolean updateTravel(@Param("id") Long id, TravelDto travelDto) {
-        if (travelMapper.updateTravel(id, travelDto) == 1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+                    travelDetailDTO.getImages().stream()
+                            .forEach(image -> travelMapper.saveTravelPhoto(
 
-    public boolean deleteTravelById(@Param("id") Long id) {
-        if (travelMapper.deleteTravelById(id) == 1) {
-            return true;
-        } else {
-            return false;
-        }
+                                    TravelPhoto.builder()
+                                            .photoUrl(s3Service.uploadBase64Image(image))
+                                            .travelDetailId(detailDetail.getTravelId())
+                                            .build()
+                            ));
+                });
+        return true;
     }
 }

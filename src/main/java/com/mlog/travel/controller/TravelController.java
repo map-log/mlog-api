@@ -1,11 +1,9 @@
 package com.mlog.travel.controller;
 
-import com.mlog.travel.dto.TravelDto;
+import com.mlog.travel.dto.SaveTravelRequest;
 import com.mlog.travel.service.TravelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static com.mlog.util.ApiUtils.ApiResult;
 import static com.mlog.util.ApiUtils.success;
