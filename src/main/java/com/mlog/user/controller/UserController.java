@@ -63,7 +63,7 @@ public class UserController {
         );
     }
 
-    @PutMapping
+    @PostMapping("/join")
     public ApiResult<UserDTO> join(@RequestBody JoinRequest joinRequest) {
         return success(
                 new UserDTO(userService.joinProcess(joinRequest))
@@ -75,9 +75,9 @@ public class UserController {
         return success(userService.delete(id));
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public ApiResult<Boolean> modify(@RequestBody UserDTO userDTO, @PathVariable Long id) {
-        return success(userService.delete(id));
+        return success(userService.update(userDTO,id));
     }
 
     @GetMapping("/me")

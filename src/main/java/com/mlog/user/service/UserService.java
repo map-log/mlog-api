@@ -72,11 +72,10 @@ public class UserService {
         User data = userMapper.findById(id).orElseThrow(() -> new UnauthorizedException("Invalid id"));
         userMapper.update(User.builder()
                 .id(id)
-                .name(userDTO.getName() == null ? userDTO.getName() : null)
+                .name(userDTO.getName() != null ? userDTO.getName() : null)
                 .email(userDTO.getEmail())
+                .password(passwordEncoder.encode(userDTO.getPassword()))
                 .role("ROLE_USER")
-                .updatedAt(userDTO.getUpdatedAt())
-                .createdAt(userDTO.getCreatedAt())
                 .build());
 
         return true;

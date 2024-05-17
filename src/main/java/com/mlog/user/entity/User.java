@@ -31,10 +31,10 @@ public class User {
 
     private LocalDateTime updatedAt;
 
-    public void update(UserDTO userDTO) {
+    public void update(UserDTO userDTO,PasswordEncoder passwordEncoder) {
         this.email = userDTO.getEmail() == null ? this.email : userDTO.getEmail();
         this.name = userDTO.getName() == null ? this.name : userDTO.getEmail();
-        this.password = userDTO.getEmail() == null ? this.password : userDTO.getEmail();
+        this.password = userDTO.getPassword() == null ? this.password : userDTO.getPassword();
         this.role = userDTO.getEmail() == null ? this.role : userDTO.getEmail();
         updatedAt = LocalDateTime.now();
     }

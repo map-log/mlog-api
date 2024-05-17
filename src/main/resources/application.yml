@@ -1,9 +1,9 @@
 spring:
   profiles:
     active:
-#      - dev
+      - dev
     include:
-      - local
+#      - local
 #      - prod
 #
 mybatis:
