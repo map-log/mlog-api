@@ -14,8 +14,8 @@ public class SaveTravelRequest {
     private String title;
     private String description;
     private String image;
-    private Double lat;
-    private Double lng;
+    private String lat;
+    private String lng;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Double rating;
