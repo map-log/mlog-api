@@ -18,8 +18,8 @@ public class Travel {
     private String titleImgUrl;
     private String description;
     private Double rating;
-    private Double lat;
-    private Double lng;
+    private String lat;
+    private String lng;
     private LocalDateTime startAt;
     private LocalDateTime endAt;
     private LocalDateTime createdAt;
