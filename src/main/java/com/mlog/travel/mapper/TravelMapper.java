@@ -13,6 +13,9 @@ public interface TravelMapper {
     @Select("select * from travel where user_id = #{userId} order by created_at desc")
     List<Travel> findTravelByUserId(Long userId);
 
+    @Select("select * from travel where id = #{travelId}")
+    Travel findTravelByTravelId(Long travelId);
+
     @Select("select * from travelDetail where travel_id = #{travelId} order by seq")
     List<TravelDetail> findTravelDetailByTravelId(Long travelId);
 
