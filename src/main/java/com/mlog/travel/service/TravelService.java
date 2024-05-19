@@ -1,18 +1,13 @@
 package com.mlog.travel.service;
 
-import com.mlog.travel.dto.TravelDto;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import com.mlog.travel.dto.SaveTravelRequest;
+import com.mlog.travel.dto.TravelDetailResult;
+import com.mlog.travel.dto.TravelListResult;
+import com.mlog.travel.dto.TravelPhotoListResult;
 
 public interface TravelService {
-    public List<TravelDto> selectAllTravel(@Param("id") Long id);
-
-    public TravelDto selectTravelById(Long id);
-
-    public boolean insertTravel(@Param("id") Long id, TravelDto travelDto);
-
-    public boolean updateTravel(@Param("id") Long id, TravelDto travelDto);
-
-    public boolean deleteTravelById(@Param("id") Long id);
+    boolean saveTravel(Long id, SaveTravelRequest saveTravelRequest);
+    TravelListResult findAllTravel(Long userId);
+    TravelDetailResult findTravelDetail(Long id);
+    TravelPhotoListResult findTravelPhotoList(Long id);
 }

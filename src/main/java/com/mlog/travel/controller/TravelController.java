@@ -1,11 +1,14 @@
 package com.mlog.travel.controller;
 
-import com.mlog.travel.dto.TravelDto;
+import com.mlog.security.JwtAuthentication;
+import com.mlog.travel.dto.SaveTravelRequest;
+import com.mlog.travel.dto.TravelListResult;
+import com.mlog.travel.dto.TravelDetailResult;
 import com.mlog.travel.service.TravelService;
+import com.mlog.travel.dto.TravelPhotoListResult;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static com.mlog.util.ApiUtils.ApiResult;
 import static com.mlog.util.ApiUtils.success;
@@ -17,29 +20,24 @@ public class TravelController {
 
     private final TravelService travelService;
 
+    @PostMapping
+    public ApiResult<Boolean> saveTravel(@AuthenticationPrincipal JwtAuthentication authentication,
+                                         @RequestBody SaveTravelRequest saveTravelRequest) {
+        return success(travelService.saveTravel(authentication.id, saveTravelRequest));
+    }
+
     @GetMapping
-    public ApiResult<String> hello() {
-        return success("hello travel");
+    public ApiResult<TravelListResult> travelListResult(@AuthenticationPrincipal JwtAuthentication authentication) {
+        return success(travelService.findAllTravel(authentication.id));
     }
 
-    @GetMapping("/{id}")
-    public ApiResult<List<TravelDto>> getId(@PathVariable Long id) {
-        return success(travelService.selectAllTravel(id));
+    @GetMapping("/{travelId}")
+    public ApiResult<TravelDetailResult> travelDetailResult(@PathVariable Long travelId) {
+        return success(travelService.findTravelDetail(travelId));
     }
 
-    @PostMapping("/{id}")
-    public ApiResult<Boolean> saveTravel(@PathVariable Long id, @RequestBody TravelDto travelDto) {
-        return success(travelService.insertTravel(id, travelDto));
+    @GetMapping("/photos/{travelDetailId}")
+    public ApiResult<TravelPhotoListResult> travelDetailResultPhoto(@PathVariable Long travelDetailId) {
+        return success(travelService.findTravelPhotoList(travelDetailId));
     }
-
-    @PutMapping("/{id}")
-    public ApiResult<Boolean> updateTravel(@PathVariable Long id, @RequestBody TravelDto travelDto) {
-        return success(travelService.updateTravel(id, travelDto));
-    }
-
-    @DeleteMapping("/{id}")
-    public ApiResult<Boolean> deleteTravel(@PathVariable Long id) {
-        return success(travelService.deleteTravelById(id));
-    }
-
 }

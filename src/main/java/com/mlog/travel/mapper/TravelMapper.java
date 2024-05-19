@@ -1,6 +1,8 @@
 package com.mlog.travel.mapper;
 
-import com.mlog.travel.dto.TravelDto;
+import com.mlog.travel.entity.Travel;
+import com.mlog.travel.entity.TravelDetail;
+import com.mlog.travel.entity.TravelPhoto;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -8,19 +10,29 @@ import java.util.List;
 @Mapper
 public interface TravelMapper {
 
-    @Select("select * from travel where user_id = #{id}")
-    public List<TravelDto> selectAllTravel(Long id);
+    @Select("select * from travel where user_id = #{userId} order by created_at desc")
+    List<Travel> findTravelByUserId(Long userId);
 
-    public TravelDto selectTravelById(Long id);
+    @Select("select * from travel where id = #{travelId}")
+    Travel findTravelByTravelId(Long travelId);
 
-    @Insert("insert into travel (title,map_marker_url,longitude,latitude,created_at,updated_at,user_id) " +
-            "values (#{travelDto.title},#{travelDto.map_marker_url},#{travelDto.longitude},#{travelDto.latitude},now(),now(),#{id})")
-    public int insertTravel(Long id, TravelDto travelDto);
+    @Select("select * from travel_detail where travel_id = #{travelId} order by seq")
+    List<TravelDetail> findTravelDetailByTravelId(Long travelId);
 
-    @Update("update travel set title=#{travelDto.title}, map_marker_url=#{travelDto.map_marker_url}, longitude=#{travelDto.longitude},latitude=#{travelDto.latitude},updated_at=now()" +
-            "where id = #{id}")
-    public int updateTravel(Long id, TravelDto travelDto);
+    @Select("select * from travel_Photo where travel_detail_id = #{travelDetailId}")
+    List<TravelPhoto> findTravelDetailPhotoByTravelDetailId(Long travelDetailId);
 
-    @Delete("delete from travel where user_id = #{id}")
-    public int deleteTravelById(Long id);
+    @Insert("insert into travel (title, title_img_url, description, rating, lat, lng, start_at, end_at, created_at, updated_at, user_id) " +
+            "values (#{title}, #{titleImgUrl}, #{description}, #{rating}, #{lat}, #{lng}, #{startAt}, #{endAt}, now(), now(), #{userId})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int saveTravel(Travel travel);
+
+    @Insert("insert into travel_detail (seq, title, description, created_at, updated_at, travel_id) " +
+            "values (#{seq}, #{title}, #{description}, now(), now(), #{travelId})")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    int saveTravelDetail(TravelDetail travelDetail);
+
+    @Insert("insert into travel_photo (photo_url, created_at, travel_detail_id) " +
+            "values (#{photoUrl}, now(), #{travelDetailId})")
+    int saveTravelPhoto(TravelPhoto travelDetailPhoto);
 }
