@@ -19,7 +19,7 @@ public class TravelController {
 
     private final TravelService travelService;
 
-    @PostMapping("/")
+    @PostMapping
     public ApiResult<Boolean> saveTravel(@AuthenticationPrincipal JwtAuthentication authentication,
                                          @RequestBody SaveTravelRequest saveTravelRequest) {
         return success(travelService.saveTravel(authentication.id, saveTravelRequest));

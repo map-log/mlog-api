@@ -5,17 +5,18 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DATABASE.ENDPOINT_URL.prod}:3306/${DATABASE.NAME.prod}?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${DATABASE.ENDPOINT_URL.prod}:3306/${DATABASE.NAME.prod}
     username: ${DATABASE.USERNAME.prod}
     password: ${DATABASE.PASSWORD.prod}
   jpa:
     hibernate:
       ddl-auto: none
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQLDialect
+
 jwt:
   token:
     header: X-MLOG-AUTH
     issuer: mlog
     client-secret: ${JWT.SECRET}
-    expiry-seconds: 0
+    expiry-seconds: 1000

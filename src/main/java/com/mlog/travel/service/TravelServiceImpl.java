@@ -9,12 +9,10 @@ import com.mlog.travel.entity.Travel;
 import com.mlog.travel.entity.TravelDetail;
 import com.mlog.travel.entity.TravelPhoto;
 import com.mlog.travel.mapper.TravelMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class TravelServiceImpl implements TravelService {
 
@@ -47,8 +45,7 @@ public class TravelServiceImpl implements TravelService {
     }
 
     public TravelListResult findAllTravel(Long userId) {
-        return TravelListResult
-                .of(travelMapper.findTravelByUserId(userId));
+        return TravelListResult.of(travelMapper.findTravelByUserId(userId));
     }
 
     public TravelDetailResult findTravelDetail(Long id) {
