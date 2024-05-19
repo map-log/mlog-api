@@ -5,6 +5,7 @@ import com.mlog.travel.dto.SaveTravelRequest;
 import com.mlog.travel.dto.TravelListResult;
 import com.mlog.travel.dto.TravelDetailResult;
 import com.mlog.travel.service.TravelService;
+import com.mlog.travel.dto.TravelPhotoListResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class TravelController {
 
     private final TravelService travelService;
 
-    @PostMapping("/")
+    @PostMapping
     public ApiResult<Boolean> saveTravel(@AuthenticationPrincipal JwtAuthentication authentication,
                                          @RequestBody SaveTravelRequest saveTravelRequest) {
         return success(travelService.saveTravel(authentication.id, saveTravelRequest));
@@ -36,7 +37,7 @@ public class TravelController {
     }
 
     @GetMapping("/photos/{travelDetailId}")
-    public ApiResult<TravelDetailResult> travelDetailResultPhoto(@PathVariable Long travelDetailId) {
-        return success(travelService.findTravelDetail(travelDetailId));
+    public ApiResult<TravelPhotoListResult> travelDetailResultPhoto(@PathVariable Long travelDetailId) {
+        return success(travelService.findTravelPhotoList(travelDetailId));
     }
 }

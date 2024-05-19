@@ -16,10 +16,10 @@ public interface TravelMapper {
     @Select("select * from travel where id = #{travelId}")
     Travel findTravelByTravelId(Long travelId);
 
-    @Select("select * from travelDetail where travel_id = #{travelId} order by seq")
+    @Select("select * from travel_detail where travel_id = #{travelId} order by seq")
     List<TravelDetail> findTravelDetailByTravelId(Long travelId);
 
-    @Select("select * from travelDetailPhoto where travel_detail_id = #{travelDetailId}")
+    @Select("select * from travel_Photo where travel_detail_id = #{travelDetailId}")
     List<TravelPhoto> findTravelDetailPhotoByTravelDetailId(Long travelDetailId);
 
     @Insert("insert into travel (title, title_img_url, description, rating, lat, lng, start_at, end_at, created_at, updated_at, user_id) " +
