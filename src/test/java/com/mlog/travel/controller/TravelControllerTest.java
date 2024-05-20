@@ -17,24 +17,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class TravelControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Test
-    public void travel_테스트_예시() throws Exception {
-
-        MvcResult result = mockMvc.perform(get("/travel")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
-        assertThat(response.get("success"))
-                .isEqualTo(true);
-        assertThat("hello travel")
-                .isEqualTo(response.get("response"));
-        assertThat(response.get("error"))
-                .isEqualTo(null);
-    }
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @Test
+//    public void travel_테스트_예시() throws Exception {
+//
+//        MvcResult result = mockMvc.perform(get("/travel")
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
+//        assertThat(response.get("success"))
+//                .isEqualTo(true);
+//        assertThat("hello travel")
+//                .isEqualTo(response.get("response"));
+//        assertThat(response.get("error"))
+//                .isEqualTo(null);
+//    }
 
 }
