@@ -20,6 +20,15 @@ jobs:
         echo "${{ secrets.APPLICATION_SECRET_YML }}" >> src/main/resources/profiles/application-secret.yml
         cat src/main/resources/profiles/application-secret.yml
 
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'corretto'
+
+    - name: Gradle build
+      run: chmod +x ./gradlew && ./gradlew build
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
