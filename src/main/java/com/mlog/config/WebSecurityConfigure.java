@@ -69,7 +69,7 @@ public class WebSecurityConfigure {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/login").permitAll()
-                        .anyRequest().permitAll())
+                        .anyRequest().authenticated())
 
                 .formLogin(AbstractHttpConfigurer::disable);
 
