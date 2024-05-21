@@ -72,5 +72,4 @@ public class GeneralExceptionHandler {
     public ResponseEntity<?> handleUnauthorizedException(Exception e) {
         return newResponse(e, HttpStatus.UNAUTHORIZED);
     }
-
 }

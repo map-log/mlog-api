@@ -32,11 +32,6 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
 
-    @GetMapping
-    public ApiResult<String> hello() {
-        return success("hello user");
-    }
-
     @PostMapping("/login")
     public ApiResult<LoginResult> login(@Valid @RequestBody LoginRequest request)
             throws UnauthorizedException {
