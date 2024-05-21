@@ -68,7 +68,7 @@ public class WebSecurityConfigure {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/login").permitAll()
+                        .requestMatchers("/user/login", "/", "/index.html").permitAll()
                         .anyRequest().authenticated())
 
                 .formLogin(AbstractHttpConfigurer::disable);
