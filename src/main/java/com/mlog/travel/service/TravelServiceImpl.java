@@ -35,9 +35,10 @@ public class TravelServiceImpl implements TravelService {
                     travelDetailDTO.getImages()
                             .forEach(image -> travelMapper.saveTravelPhoto(
 
+
                                     TravelPhoto.builder()
                                             .photoUrl(s3Service.uploadBase64Image(image))
-                                            .travelDetailId(detailDetail.getTravelId())
+                                            .travelDetailId(detailDetail.getId())
                                             .build()
                             ));
                 });
