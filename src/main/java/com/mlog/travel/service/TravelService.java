@@ -6,8 +6,9 @@ import com.mlog.travel.dto.TravelListResult;
 import com.mlog.travel.dto.TravelPhotoListResult;
 
 public interface TravelService {
-    boolean saveTravel(Long id, SaveTravelRequest saveTravelRequest);
+    Boolean saveTravel(Long id, SaveTravelRequest saveTravelRequest);
     TravelListResult findAllTravel(Long userId);
     TravelDetailResult findTravelDetail(Long id);
     TravelPhotoListResult findTravelPhotoList(Long id);
+    Boolean deleteTravel(Long travelId);
 }

@@ -35,4 +35,13 @@ public interface TravelMapper {
     @Insert("insert into travel_photo (photo_url, created_at, travel_detail_id) " +
             "values (#{photoUrl}, now(), #{travelDetailId})")
     int saveTravelPhoto(TravelPhoto travelDetailPhoto);
+
+    @Delete("delete from travel where id = #{travelId}")
+    int deleteTravelByTravelId(Long travelId);
+
+    @Delete("delete from travel_detail where travel_id = #{travelId}")
+    int deleteTravelDetailByTravelId(Long travelId);
+
+    @Delete("delete from travel_photo where travel_detail_id = #{travelDetailId}")
+    int deleteTravelDetailPhotoByTravelDetailId(Long travelDetailId);
 }

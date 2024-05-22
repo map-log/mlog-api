@@ -40,4 +40,9 @@ public class TravelController {
     public ApiResult<TravelPhotoListResult> travelDetailResultPhoto(@PathVariable Long travelDetailId) {
         return success(travelService.findTravelPhotoList(travelDetailId));
     }
+
+    @DeleteMapping("/{travelId}")
+    public ApiResult<Boolean> deleteTravel(@PathVariable Long travelId) {
+        return success(travelService.deleteTravel(travelId));
+    }
 }
