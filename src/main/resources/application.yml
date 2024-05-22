@@ -3,19 +3,6 @@ spring:
     active:
     include:
       - prod
-  mail:
-    host: smtp-mail.outlook.com
-    port: 587
-    username: m-log@outlook.kr
-    password:
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-          timeout: 5000
-          enable: true
 
 mybatis:
   configuration:

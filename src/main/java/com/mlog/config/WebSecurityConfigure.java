@@ -76,22 +76,16 @@ public class WebSecurityConfigure {
 
                 .headers(AbstractHttpConfigurer::disable)
 
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/user/password-reset-request", "/user/reset-password", "/user/login", "/user/join", "/", "/index.html", "/password-reset-success.html").permitAll()
+                        .anyRequest().authenticated())
+
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(unauthorizedHandler))
 
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/user/password-reset-request",
-                                "/reset-password",
-                                "/user/login",
-                                "/user/join",
-                                "/",
-                                "/index.html").permitAll()
-                        .anyRequest().authenticated())
 
                 .formLogin(AbstractHttpConfigurer::disable);
 

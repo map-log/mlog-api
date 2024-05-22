@@ -17,13 +17,15 @@ public class PasswordResetController {
 
     // 비밀번호 재설정 요청
     @PostMapping("/user/password-reset-request")
+    @ResponseBody
     public ApiResult<Boolean> passwordResetRequest(@RequestParam String email) {
         return success(passwordResetService.sendPasswordResetMail(email));
     }
 
     // 비밀번호 재설정 토큰 검증 및 비밀번호 재설정
-    @PostMapping("/reset-password")
+    @PostMapping("/user/reset-password")
     public String resetPassword(@RequestParam String token, @RequestParam String newPassword) {
-        return "redirect:m-log.site";
+        passwordResetService.resetPassword(token, newPassword);
+        return "password-reset-success";
     }
 }
