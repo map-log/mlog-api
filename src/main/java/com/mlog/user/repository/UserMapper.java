@@ -24,4 +24,8 @@ public interface UserMapper {
     @Update("update users set email=#{email}, name=#{name}, password=#{password}, role=#{role}, updated_at=now() " +
             "where id = #{id}")
     void update(User user);
+
+    @Update("update users set password=#{password}, updated_at=now() " +
+            "where email = #{email}")
+    void updatePassword(String email, String password);
 }
