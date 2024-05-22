@@ -1,10 +1,7 @@
 package com.mlog.travel.service;
 
 import com.mlog.aws.S3Service;
-import com.mlog.travel.dto.SaveTravelRequest;
-import com.mlog.travel.dto.TravelDetailResult;
-import com.mlog.travel.dto.TravelListResult;
-import com.mlog.travel.dto.TravelPhotoListResult;
+import com.mlog.travel.dto.*;
 import com.mlog.travel.entity.Travel;
 import com.mlog.travel.entity.TravelDetail;
 import com.mlog.travel.entity.TravelPhoto;
@@ -72,6 +69,13 @@ public class TravelServiceImpl implements TravelService {
                         travelMapper.deleteTravelDetailPhotoByTravelDetailId(travelDetail.getId())
                 );
         travelMapper.deleteTravelDetailByTravelId(travelId);
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean updateTravel(Long userId, Long travelId, UpdateTravelRequest updateTravelRequest) {
+        deleteTravel(travelId);
+        saveTravel(userId, SaveTravelRequest.of(updateTravelRequest));
         return Boolean.TRUE;
     }
 }

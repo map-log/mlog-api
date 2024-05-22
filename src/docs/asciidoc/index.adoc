@@ -97,3 +97,11 @@ include::{snippets}/travel/delete/http-request.adoc[]
 
 **Response**
 include::{snippets}/travel/delete/http-response.adoc[]
+
+=== 여행 정보 수정
+
+**Request**
+include::{snippets}/travel/modify/http-request.adoc[]
+
+**Response**
+include::{snippets}/travel/modify/http-response.adoc[]

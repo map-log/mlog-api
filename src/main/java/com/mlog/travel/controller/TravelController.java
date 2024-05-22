@@ -1,11 +1,8 @@
 package com.mlog.travel.controller;
 
 import com.mlog.security.JwtAuthentication;
-import com.mlog.travel.dto.SaveTravelRequest;
-import com.mlog.travel.dto.TravelListResult;
-import com.mlog.travel.dto.TravelDetailResult;
+import com.mlog.travel.dto.*;
 import com.mlog.travel.service.TravelService;
-import com.mlog.travel.dto.TravelPhotoListResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -44,5 +41,12 @@ public class TravelController {
     @DeleteMapping("/{travelId}")
     public ApiResult<Boolean> deleteTravel(@PathVariable Long travelId) {
         return success(travelService.deleteTravel(travelId));
+    }
+
+    @PutMapping("/{travelId}")
+    public ApiResult<Boolean> updateTravel(@AuthenticationPrincipal JwtAuthentication authentication,
+                                           @PathVariable Long travelId,
+                                           @RequestBody UpdateTravelRequest updateTravelRequest) {
+        return success(travelService.updateTravel(authentication.id, travelId, updateTravelRequest));
     }
 }

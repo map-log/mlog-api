@@ -19,6 +19,9 @@ public interface TravelMapper {
     @Select("select * from travel_detail where travel_id = #{travelId} order by seq")
     List<TravelDetail> findTravelDetailByTravelId(Long travelId);
 
+    @Select("select * from travel_detail where id = #{travelDetailId}")
+    TravelDetail findTravelDetailByTravelDetailId(Long travelDetailId);
+
     @Select("select * from travel_photo where travel_detail_id = #{travelDetailId}")
     List<TravelPhoto> findTravelDetailPhotoByTravelDetailId(Long travelDetailId);
 
@@ -44,4 +47,15 @@ public interface TravelMapper {
 
     @Delete("delete from travel_photo where travel_detail_id = #{travelDetailId}")
     int deleteTravelDetailPhotoByTravelDetailId(Long travelDetailId);
+
+    @Update("update travel " +
+            "set title=#{title}, title_img_url=#{titleImgUrl}, description=#{description}, rating=#{rating}, " +
+            "lat=#{lat}, lng=#{lng}, start_at=#{startAt}, end_at=#{endAt}, updated_at=now()" +
+            "where id = #{id}")
+    int updateTravel(Travel travel);
+
+    @Update("update travel_detail " +
+            "set seq = #{seq}, title=#{title}, description=#{description}, updated_at=now() " +
+            "where id = #{id}")
+    int updateTravelDetail(TravelDetail travelDetail);
 }
