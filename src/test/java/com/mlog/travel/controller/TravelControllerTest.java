@@ -184,4 +184,53 @@ class TravelControllerTest {
                 .andDo(document("travel/delete"))
         ;
     }
+
+    @Test
+    @Transactional
+    @WithMockJwtAuthentication
+    public void 사용자_여행정보_수정() throws Exception {
+        ResultActions result = mockMvc.perform(put("/travel/5")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content("{" +
+                        "\"title\": \"행복한 여행\",\n" +
+                        "    \"description\": \"한줄평!! 너무 좋습니다!\",\n" +
+                        "    \"image\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiiiiiiiiiiiiiiiiiiiiiiiii\",\n" +
+                        "    \"lat\": 35.20396241242666,\n" +
+                        "    \"lng\": 126.80639199013274,\n" +
+                        "    \"startDate\": \"2024-05-21T15:19:49.598Z\",\n" +
+                        "    \"endDate\": \"2024-05-29T15:19:49.598Z\",\n" +
+                        "    \"rating\": 5,\n" +
+                        "    \"detailedSchedules\": [\n" +
+                        "        {\n" +
+                        "            \"seq\": 1,\n" +
+                        "            \"title\": \"상세 일정1\",\n" +
+                        "            \"description\": \"상세 일정 설명 1\",\n" +
+                        "            \"images\": [\n" +
+                        "               \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiiiiiiiiiiiiiiiiiiiiiiiii\",\n" +
+                        "               \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiiiiiiiiiiiiiiiiiiiiiiiii\"\n" +
+                        "            ]\n" +
+                        "        },\n" +
+                        "        {\n" +
+                        "            \"seq\": 2,\n" +
+                        "            \"title\": \"상세 일정2\",\n" +
+                        "            \"description\": \"상세 일정 설명 2\",\n" +
+                        "            \"images\": [\n" +
+                        "               \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiiiiiiiiiiiiiiiiiiiiiiiii\",\n" +
+                        "               \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiiiiiiiiiiiiiiiiiiiiiiiii\"\n" +
+                        "            ]\n" +
+                        "        }\n" +
+                        "    ]\n" +
+                        "}")
+        );
+        result.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(handler().handlerType(TravelController.class))
+                .andExpect(handler().methodName("updateTravel"))
+                .andExpect(jsonPath("$.success", is(true)))
+                .andExpect(jsonPath("$.response", is(true)))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(document("travel/modify"))
+        ;
+    }
 }

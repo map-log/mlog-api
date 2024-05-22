@@ -1,6 +1,7 @@
 package com.mlog.travel.entity;
 
 import com.mlog.travel.dto.SaveTravelRequest;
+import com.mlog.travel.dto.UpdateTravelRequest;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,17 @@ public class TravelDetail {
                 .title(detailedScheduleDTO.getTitle())
                 .description(detailedScheduleDTO.getDescription())
                 .travelId(travelId)
+                .build();
+    }
+
+    public static TravelDetail of(TravelDetail travelDetail,
+                                  UpdateTravelRequest.DetailedScheduleDTO detailedScheduleDTO) {
+        return TravelDetail.builder()
+                .id(travelDetail.getId())
+                .seq(detailedScheduleDTO.getSeq() != null ? detailedScheduleDTO.getSeq() : travelDetail.getSeq())
+                .title(detailedScheduleDTO.getTitle() != null ? detailedScheduleDTO.getTitle() : travelDetail.getTitle())
+                .description(detailedScheduleDTO.getDescription() != null ? detailedScheduleDTO.getDescription() : travelDetail.getDescription())
+                .travelId(travelDetail.getTravelId())
                 .build();
     }
 }
