@@ -1,11 +1,10 @@
 spring:
   profiles:
     active:
-#      - dev
     include:
-#      - local
       - prod
-#
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+

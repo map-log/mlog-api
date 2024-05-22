@@ -13,6 +13,23 @@ spring:
       ddl-auto: none
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQLDialect
+  mail:
+    host: smtp-mail.outlook.com
+    port: 587
+    username: ${MAIL.USERNAME}
+    password: ${MAIL.PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          timeout: 5000
+          enable: true
+
+mail:
+  root: ${MAIL.ROOT.prod}
+  sender-email: ${MAIL.USERNAME}
 
 jwt:
   token:

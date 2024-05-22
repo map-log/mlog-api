@@ -20,6 +20,24 @@ spring:
   sql:
     init:
       platform: h2
+  mail:
+    host: smtp-mail.outlook.com
+    port: 587
+    username: ${MAIL.USERNAME}
+    password: ${MAIL.PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          timeout: 5000
+          enable: true
+
+mail:
+  root: ${MAIL.ROOT.local}
+  sender-email: ${MAIL.USERNAME}
+
 jwt:
   token:
     header: X-MLOG-AUTH
