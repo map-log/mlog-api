@@ -20,8 +20,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -165,6 +164,24 @@ class TravelControllerTest {
                 .andExpect(jsonPath("$.response.travelPhotoList[0].imageUrl").isString())
                 .andExpect(jsonPath("$.error").isEmpty())
                 .andDo(document("travel/photos"))
+        ;
+    }
+
+    @Test
+    @Transactional
+    public void 사용자_여행정보_지우기() throws Exception {
+        ResultActions result = mockMvc.perform(delete("/travel/5")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+        result.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(handler().handlerType(TravelController.class))
+                .andExpect(handler().methodName("deleteTravel"))
+                .andExpect(jsonPath("$.success", is(true)))
+                .andExpect(jsonPath("$.response", is(true)))
+                .andExpect(jsonPath("$.error").isEmpty())
+                .andDo(document("travel/delete"))
         ;
     }
 }
